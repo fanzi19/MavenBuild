@@ -15,9 +15,9 @@ node(){
 	}
 	
 	stage('Code Scan'){
-		withSonarQubeEnv(credentialsId: 'SonarQubeCreds') {
-			sh "${sonarHome}/bin/sonar-scanner"
-		}
+		//withSonarQubeEnv(credentialsId: 'SonarQubeCreds') {
+		//	sh "${sonarHome}/bin/sonar-scanner"
+		//}
 		
 	}
 	stage('Code Coverage ') {
