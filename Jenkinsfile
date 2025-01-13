@@ -1,5 +1,4 @@
 node(){
-    
     stage('Code Checkout'){
         checkout changelog: false, poll: false, scm: scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/fanzi19/MavenBuild']])
     }
@@ -10,15 +9,7 @@ node(){
             mvn clean install
             ls -lart target
         """
-    }
-    
-    stage('Store Artifacts') {
-        // Copy and archive the websocket WAR
-        sh """
-            cp /var/jenkins_home/websocket-examples.war ${WORKSPACE}/
-            ls -lart ${WORKSPACE}/websocket-examples.war
-        """
-        archiveArtifacts artifacts: 'websocket-examples.war', fingerprint: true
+        archiveArtifacts artifacts: 'target/*.war', fingerprint: true
     }
     
     stage('Code Scan'){
@@ -32,10 +23,9 @@ node(){
     }
     
     stage('Code Deployment'){
-        // Deploy only the websocket WAR
         deploy adapters: [tomcat9(credentialsId: 'TomcatCreds', path: '', url: 'http://localhost:8080/')], 
-               contextPath: 'websocket-examples', 
+               contextPath: 'Planview', 
                onFailure: false, 
-               war: 'websocket-examples.war'
+               war: 'target/java-example.war'
     }
 }
