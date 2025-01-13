@@ -25,6 +25,6 @@ node(){
 	}
 	
 	stage('Code Deployment'){
-		deploy adapters: [tomcat9(credentialsId: 'TomcatCreds', path: '', url: 'http://localhost:8080/')], contextPath: 'Planview', onFailure: false, war: 'target/*.war'
+		deploy adapters: [tomcat(credentialsId: 'TomcatCreds', path: '', url: 'http://localhost:8080/', version: '11')], contextPath: 'Planview', onFailure: false, war: 'target/*.war'
 	}
 }
