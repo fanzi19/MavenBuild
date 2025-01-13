@@ -23,7 +23,7 @@ node(){
     }
     
     stage('Code Deployment'){
-        deploy adapters: [tomcat9(credentialsId: 'TomcatCreds', path: '', url: 'http://localhost:8080/')], 
+        deploy adapters: [tomcat9(credentialsId: 'TomcatCreds', path: '', url: 'http://host.docker.internal:8080/')], 
                contextPath: 'Planview', 
                onFailure: false, 
                war: 'target/java-example.war'
