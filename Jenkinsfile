@@ -10,6 +10,8 @@ node(){
 			ls -lart
 			mvn clean install
 			ls -lart target
+   			echo "\nTarget directory contents:"
+        		ls -lart target/
 
 		"""
 	}
@@ -25,6 +27,10 @@ node(){
 	}
 	
 	stage('Code Deployment'){
-		deploy adapters: [tomcat9(credentialsId: 'TomcatCreds', path: '', url: 'http://localhost:8080/')], contextPath: 'Planview', onFailure: false, war: 'target/*.war'
+		def warFile = sh(script: 'find target -name "*.war"', returnStdout: true).trim()
+            	if (warFile == '') {
+                	error "No WAR file found in target directory!"
+            	}
+		deploy adapters: [tomcat9(credentialsId: 'TomcatCreds', path: '', url: 'http://localhost:8080/')], contextPath: 'Planview', onFailure: false, war: 'warFile'
 	}
 }
